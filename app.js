@@ -41,6 +41,13 @@ function start(input) {
               });
         }else {
             console.log("not found");
+            document.body.addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                  event.preventDefault();
+                  used[foundWord] = true;
+                  clearInterval(interval);
+                }
+              });
         }
     }, 100);
 }
