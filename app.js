@@ -12,26 +12,12 @@ fetch(url).then(res => res.json()).then(out => {
     console.log("Loaded json with " + json['length'] + " words");
 
     let selfTurn = document.querySelector('.selfTurn');
-
-    let stopButton = document.createElement('button');
-    stopButton.innerHTML = "Stop"
-    stopButton.onclick = () => {
-        if(interval) {
-            clearInterval(interval);
-            stopButton.innerHTML = "Start";
-            interval = null;
-        }else {
-            start(selfTurn.children[0], selfTurn.children[0].children[0]);
-            stopButton.innerHTML = "Stop";
-        }
-    }
-
-    selfTurn.appendChild(stopButton);
     
-    start(selfTurn.children[0], selfTurn.children[0].children[0]);
+    
+    start(selfTurn.children[0].children[0]);
 });
 
-function start(form, input) {
+function start(input) {
     interval = setInterval(function() {
         let text = document.querySelector('.syllable').innerHTML;
     
@@ -51,7 +37,6 @@ function start(form, input) {
                   event.preventDefault();
                   used[foundWord] = true;
                   clearInterval(interval);
-                  start(form, input);
                 }
               });
         }else {
