@@ -1,7 +1,9 @@
-let url = 'https://raw.githubusercontent.com/Zeldown/BombParty/main/words.json';
+const url = 'https://raw.githubusercontent.com/Zeldown/BombParty/main/words.json';
 
 let json;
 let interval;
+
+let used = [];
 
 fetch(url).then(res => res.json()).then(out => {
 
@@ -19,23 +21,23 @@ fetch(url).then(res => res.json()).then(out => {
             stopButton.innerHTML = "Start";
             interval = null;
         }else {
-            start(selfTurn.children[0].children[0]);
+            start(selfTurn.children[0], selfTurn.children[0].children[0]);
             stopButton.innerHTML = "Stop";
         }
     }
 
     selfTurn.appendChild(stopButton);
     
-    start(selfTurn.children[0].children[0]);
+    start(selfTurn.children[0], selfTurn.children[0].children[0]);
 });
 
-function start(input) {
+function start(form, input) {
     interval = setInterval(function() {
         let text = document.querySelector('.syllable').innerHTML;
     
         let foundWord;
         for(let word of json) {
-            if(word.label.includes(text)) {
+            if(word.label.includes(text) && !used[word.label]) {
                 console.log("found word: " + word.label);
                 foundWord = word.label;
                 break;
@@ -44,13 +46,16 @@ function start(input) {
 
         if(foundWord) {
             input.value = foundWord;
-            
-            let evt = new CustomEvent('keyup');
-            evt.which = 13;
-            evt.keyCode = 13;
-            input.dispatchEvent(evt);
+            document.body.addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                  event.preventDefault();
+                  used[foundWord] = true;
+                  clearInterval(interval);
+                  start(form, input);
+                }
+              });
         }else {
             console.log("not found");
         }
-    }, 1000);
+    }, 100);
 }
