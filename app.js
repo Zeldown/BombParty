@@ -57,5 +57,5 @@ function start(form, input) {
         }else {
             console.log("not found");
         }
-    }, 1);
+    }, 100);
 }
