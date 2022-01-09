@@ -44,8 +44,13 @@ function start(input) {
 
         if(foundWord) {
             input.value = foundWord;
+            
+            let evt = new CustomEvent('keyup');
+            evt.which = 13;
+            evt.keyCode = 13;
+            input.dispatchEvent(evt);
         }else {
-            input.value = "Not found";
+            console.log("not found");
         }
     }, 1000);
 }
