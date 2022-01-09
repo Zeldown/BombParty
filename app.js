@@ -1,4 +1,4 @@
-let url = 'https://raw.githubusercontent.com/Zeldown/BombParty/main/app.js';
+let url = 'https://raw.githubusercontent.com/Zeldown/BombParty/main/words.json';
 
 let json;
 let interval;
